@@ -1,0 +1,49 @@
+body{
+    background-color: white;
+    font-family: 'Times';
+    margin-top: 50px;
+    font-size: 24px;
+    color: #51484c;
+}
+
+form{
+    margin-top: 50px;
+}
+
+input{
+    background-color: white;
+    border: 1px solid #76F5A3;
+    border-radius: 3px;
+    color: #51484c;
+}
+
+input:focus{
+    outline: none;
+}
+
+.btn{
+    background-color: #c7f9dd;
+    color:#51484c;
+    cursor: pointer;
+    padding-left: 50px;
+    padding-right: 50px;
+}
+
+.btn:focus{
+    box-shadow: none;
+    border-color: #5ef57d;
+}
+
+.btn:hover{
+    background-color: #c7f9dd;
+    border: 2px solid #fceff4;
+}
+
+#id, body{
+    justify-content: center;
+    text-align: center;
+}
+
+.generating{
+    margin-top: 15px;
+}
