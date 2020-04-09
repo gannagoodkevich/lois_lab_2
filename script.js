@@ -55,6 +55,12 @@ function getSubFormula(memory, subFormulas, priority) {
 }
 
 function findSubformulas(subFormulas, variables) {
+  reg1 = new RegExp(/\([A-Z]\)/g)
+  matchings = formula.match(reg1)
+  if(matchings !== null){
+    formula = formula.replace("(", "")
+    formula = formula.replace(")", "")
+  }
     var numOfOpen = 0;
     for (var index = 0; index < formula.length; index++) {
         if (formula[index] == '(') {
@@ -67,7 +73,7 @@ function findSubformulas(subFormulas, variables) {
         }
 
         else if ((findInArray(symbols, formula[index]) || findInArray(constants, formula[index])) && !findInArray(variables, formula[index])) {
-            variables.push(formula[index]);
+          variables.push(formula[index]);
         }
     }
 }
@@ -97,7 +103,7 @@ function createTable(table, variables) {
     for (var indexI = variables.length - 1; indexI >= 0; indexI--) {
         var row = new Array();
         if (!findInArray(constants, variables[indexI])) {
-            var changeConst = Math.pow(2, number);    //чередование 0 и 1 в ТИ 
+            var changeConst = Math.pow(2, number);    //чередование 0 и 1 в ТИ
             var constant = 0;
             for (var indexJ = 0; indexJ < Math.pow(2, numberOfValues); indexJ++) {
                 row.push(constant);
@@ -124,7 +130,6 @@ function createTable(table, variables) {
         field.push(row);
         table.push(field);
     }
-    console.log(table)
 }
 
 function findIndexOfOperation(sub) {
@@ -252,6 +257,8 @@ function mainCalculations(table, subFormulas) {
             table.push(newField);
         }
     }
+
+    return table
 }
 
 function isTautology() {
@@ -293,5 +300,46 @@ function start() {
     var answerContent = document.createTextNode("Current formula is " + message);
     answer.appendChild(answerContent);
     mainDiv.appendChild(answer);
+    console.log(table)
+    tableCreate(table)
 }
-//((P~Q)~((!W)&(!P)))
+
+function tableCreate(table) {
+  var body = document.getElementById('table');
+
+  var tbl = document.createElement('table');
+  tbl.style.width = '70%';
+  tbl.setAttribute('border', '2');
+  var tbdy = document.createElement('tbody');
+  for (var i = 0; i < 1; i++) {
+    var tr = document.createElement('tr');
+    for (var j = 0; j < table.length; j++) {
+      var td = document.createElement('td');
+      if(i === 0) {
+        td.innerHTML = table[j][0]
+      }
+      td.appendChild(document.createTextNode('\u0020'));
+      tr.appendChild(td)
+    }
+    tbdy.appendChild(tr);
+  }
+  for (var i = 0; i < Math.pow(2, variables.length); i++) {
+    var tr = document.createElement('tr');
+    for (var j = 0; j < table.length; j++) {
+      var td = document.createElement('td');
+      if(i === 0) {
+        td.innerHTML = table[j][1][i]
+      }
+      else{
+
+      td.innerHTML = table[j][1][i]
+
+      }
+      td.appendChild(document.createTextNode('\u0020'));
+      tr.appendChild(td)
+    }
+    tbdy.appendChild(tr);
+  }
+  tbl.appendChild(tbdy);
+  body.appendChild(tbl)
+}

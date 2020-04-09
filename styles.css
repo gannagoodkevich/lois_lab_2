@@ -44,6 +44,10 @@ input:focus{
     text-align: center;
 }
 
+#table{
+  padding: 100px;
+}
+
 .generating{
     margin-top: 15px;
 }
