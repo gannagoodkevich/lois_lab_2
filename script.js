@@ -17,6 +17,8 @@ var formula;
 var table;
 var variables;
 var subFormulas;
+var answers = [];
+var forms = [];
 
 function findInArray(array, temp) {
     for (var index = 0; index < array.length; index++) {
@@ -306,7 +308,7 @@ function start() {
 
 function tableCreate(table) {
   var body = document.getElementById('table');
-
+  body.innerHTML = ""
   var tbl = document.createElement('table');
   tbl.style.width = '70%';
   tbl.setAttribute('border', '2');
@@ -342,4 +344,133 @@ function tableCreate(table) {
   }
   tbl.appendChild(tbdy);
   body.appendChild(tbl)
+}
+
+function testing(){
+  document.getElementById('quest-form').style.display = "block";
+  document.getElementById('test-btn').style.display = "none";
+
+
+  getFormula(answers, forms)
+  console.log(forms);
+  console.log(answers);
+
+  document.getElementById('question1').innerHTML = forms[0]
+  document.getElementById('question2').innerHTML = forms[1]
+  document.getElementById('question3').innerHTML = forms[2]
+  document.getElementById('question4').innerHTML = forms[3]
+  document.getElementById('question5').innerHTML = forms[4]
+}
+
+function fun1() {
+    var rad=document.getElementsByName('r1');
+    for (var i=0;i<rad.length; i++) {
+        if (rad[i].checked) {
+            console.log(rad[i].value)
+            if((answers[0] == "false" && rad[i].value == "true") || (answers[0] == "true" && rad[i].value == "false")) {
+                document.getElementById('answer1').innerHTML = "Wrong!"
+            }
+            if((answers[0] == "true" && rad[i].value == "true") || (answers[0] == "false" && rad[i].value == "false")) {
+                document.getElementById('answer1').innerHTML = "Correct!"
+            }
+        }
+    }
+}
+
+function fun2() {
+    var rad=document.getElementsByName('r2');
+    for (var i=0;i<rad.length; i++) {
+        if (rad[i].checked) {
+            console.log(rad[i].value)
+            if((answers[1] == "false" && rad[i].value == "true") || (answers[1] == "true" && rad[i].value == "false"))  {
+                document.getElementById('answer2').innerHTML = "Wrong!"
+            }
+            if((answers[1] == "true" && rad[i].value == "true") || (answers[1] == "false" && rad[i].value == "false")) {
+                document.getElementById('answer2').innerHTML = "Correct!"
+            }
+        }
+    }
+}
+
+function fun3() {
+    var rad=document.getElementsByName('r3');
+    for (var i=0;i<rad.length; i++) {
+        if (rad[i].checked) {
+            console.log(rad[i].value)
+            if((answers[2] == "false" && rad[i].value == "true") || (answers[2] == "true" && rad[i].value == "false"))  {
+                document.getElementById('answer3').innerHTML = "Wrong!"
+            }
+            if((answers[2] == "true" && rad[i].value == "true") || (answers[2] == "false" && rad[i].value == "false")) {
+                document.getElementById('answer3').innerHTML = "Correct!"
+            }
+        }
+    }
+}
+
+function fun4() {
+    var rad=document.getElementsByName('r4');
+    for (var i=0;i<rad.length; i++) {
+        if (rad[i].checked) {
+            console.log(rad[i].value)
+            if((answers[3] == "false" && rad[i].value == "true") || (answers[3] == "true" && rad[i].value == "false")) {
+                document.getElementById('answer4').innerHTML = "Wrong!"
+            }
+            if((answers[3] == "true" && rad[i].value == "true") || (answers[3] == "false" && rad[i].value == "false")) {
+                document.getElementById('answer4').innerHTML = "Correct!"
+            }
+        }
+    }
+}
+
+function fun5() {
+    var rad=document.getElementsByName('r5');
+    for (var i=0;i<rad.length; i++) {
+        if (rad[i].checked) {
+            console.log(rad[i].value)
+            if((answers[4] == "false" && rad[i].value == "true") || (answers[4] == "true" && rad[i].value == "false")) {
+                document.getElementById('answer5').innerHTML = "Wrong!"
+            }
+            if((answers[4] == "true" && rad[i].value == "true") || (answers[4] == "false" && rad[i].value == "false")) {
+                document.getElementById('answer5').innerHTML = "Correct!"
+            }
+        }
+    }
+}
+
+function getFormula(answers, forms){
+  test_formulas = ["(((P→Q)&(Q→R))→(P→R))", "(A->A)", "((P→Q)~((!P)|Q))", "((!P)->(P->Q))", "(P~P)"]
+  for (i = 0; i < 5; i++) {
+        random_f = getRandomInt(test_formulas.length)
+        my_function = test_formulas[random_f]
+        console.log(my_function)
+        result = my_function
+        matchings = result.match(/\(([^\)^\(]+)\)/g)
+    		console.log(matchings)
+        random = getRandomInt(matchings.length)
+        console.log(random);
+    if(random==0){
+    	console.log(result)
+      answers.push("true")
+    }
+    else{
+    	matchings = result.match(/[\|\&\!]/g)
+      random = getRandomInt(matchings.length)
+      console.log(matchings[random])
+      var t=0;
+  		result = result.replace(/\|/g, function (match) {
+    		t++;
+    		return (t === random)? "&" : match;
+  		});
+      result = result.replace(/\&/g, function (match) {
+    		t++;
+    		return (t === random)? "|" : match;
+  		});
+  		answers.push("false")
+    }
+    forms.push(result)
+  }
+}
+
+function getRandomInt(max) {
+  return Math.floor(Math.random() * Math.floor(max));
 }
