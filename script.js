@@ -273,6 +273,42 @@ function isTautology() {
     return true;
 }
 
+function check(){
+  var my_function = formula
+  myFunction(my_function);
+}
+
+function myFunction(my_function) {
+reg1 = new RegExp(/\(([^\)^\(]+)\)/g)
+matchings = (my_function).match(reg1)
+console.log(matchings)
+result = my_function
+
+
+for(let brackets in matchings){
+  if(matchings[brackets].match(/\(\![A-Z]\)/g)){
+    result = result.replace(matchings[brackets], 'o')
+  }
+}
+//console.log("matchings")
+//console.log(result.match(/\(([A-Zvo]((->)|(\|)|(\&)|(~)){1}[A-Zvo])\)/g))
+while(result.match(/\(([A-Zvo]((->)|(\|)|(\&)|(~)){1}[A-Zvo])\)/g)){
+  reg1 = new RegExp(/\(([A-Zvo]((->)|(\|)|(\&)|(~)){1}[A-Zvo])\)/g)
+  matchings = (result).match(reg1)
+  //console.log(matchings)
+  for(let brackets in matchings){
+      result = result.replace(matchings[brackets], 'v')
+      //console.log(result)
+  }
+}
+
+  //reg1 = new RegExp(/([dok]\&[dok])/g)
+  console.log("result")
+  console.log(result)
+  return result;
+}
+
+
 function start() {
     var input = document.getElementById("form");
     subFormulas = new Array();
@@ -280,30 +316,71 @@ function start() {
     table = new Array();
     formula = input.elements[0].value;
 
-    if (formula == "") {
-        alert("Empty field! Please, enter a formula!")
-        return;
+    my_function = formula
+    reg1 = new RegExp(/\(([^\)^\(]+)\)/g)
+    matchings = (my_function).match(reg1)
+    console.log(matchings)
+    result = my_function
+
+
+    for(let brackets in matchings){
+      if(matchings[brackets].match(/\(\![A-Z]\)/g)){
+        result = result.replace(matchings[brackets], 'o')
+      }
+    }
+    //console.log("matchings")
+    //console.log(result.match(/\(([A-Zvo]((->)|(\|)|(\&)|(~)){1}[A-Zvo])\)/g))
+    while(result.match(/\(([A-Zvo]((->)|(\|)|(\&)|(~)){1}[A-Zvo])\)/g)){
+      reg1 = new RegExp(/\(([A-Zvo]((->)|(\|)|(\&)|(~)){1}[A-Zvo])\)/g)
+      matchings = (result).match(reg1)
+      //console.log(matchings)
+      for(let brackets in matchings){
+          result = result.replace(matchings[brackets], 'v')
+          //console.log(result)
+      }
     }
 
-    findSubformulas(subFormulas, variables);
-    createTable(table, variables);
-    mainCalculations(table, subFormulas);
+      //reg1 = new RegExp(/([dok]\&[dok])/g)
+      if(result.match(/\([A-Z]\)/g) !== null || result.match(/[A-Z]/g) !== null){
+        result = "v"
+      }
+
+      console.log("result")
+      console.log(result)
 
 
-    var message;
-    if (isTautology()) {
-        message = "a tautology."
-    } else {
-        message = "not a tautology."
+    if (result === "v") {
+      findSubformulas(subFormulas, variables);
+      createTable(table, variables);
+      mainCalculations(table, subFormulas);
+
+
+      var message;
+      if (isTautology()) {
+          message = "a tautology."
+      } else {
+          message = "not a tautology."
+      }
+      var mainDiv = document.getElementById("gener_div");
+      mainDiv.innerHTML = "";
+      var answer = document.createElement("p");
+      var answerContent = document.createTextNode("Current formula is " + message);
+      answer.appendChild(answerContent);
+      mainDiv.appendChild(answer);
+      console.log(table)
+      tableCreate(table)
     }
-    var mainDiv = document.getElementById("gener_div");
-    mainDiv.innerHTML = "";
-    var answer = document.createElement("p");
-    var answerContent = document.createTextNode("Current formula is " + message);
-    answer.appendChild(answerContent);
-    mainDiv.appendChild(answer);
-    console.log(table)
-    tableCreate(table)
+    else{
+      var message = "This formula is not valid, check!!!"
+      var mainDiv = document.getElementById("gener_div");
+      mainDiv.innerHTML = "";
+      var body = document.getElementById('table');
+      body.innerHTML = ""
+      var answer = document.createElement("p");
+      var answerContent = document.createTextNode("Current formula is " + message);
+      answer.appendChild(answerContent);
+      mainDiv.appendChild(answer);
+    }
 }
 
 function tableCreate(table) {
