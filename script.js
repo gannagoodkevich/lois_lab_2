@@ -349,7 +349,7 @@ function start() {
       console.log(result)
 
 
-    if (result === "v") {
+    if (result === "v" || result === "o") {
       findSubformulas(subFormulas, variables);
       createTable(table, variables);
       mainCalculations(table, subFormulas);
