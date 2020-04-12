@@ -323,19 +323,35 @@ function start() {
     result = my_function
 
 
-    for(let brackets in matchings){
-      if(matchings[brackets].match(/\(\![A-Z]\)/g)){
-        result = result.replace(matchings[brackets], 'o')
+
+
+    while(result.match(/\(\![A-Zo]\)/g)){
+      reg1 = new RegExp(/\(\![A-Zo]\)/g)
+      matchings = (result).match(reg1)
+      console.log(matchings)
+      for(let brackets in matchings){
+          result = result.replace(matchings[brackets], 'o')
+          console.log("result")
+          console.log(result)
       }
     }
+
     //console.log("matchings")
     //console.log(result.match(/\(([A-Zvo]((->)|(\|)|(\&)|(~)){1}[A-Zvo])\)/g))
-    while(result.match(/\(([A-Zvo]((->)|(\|)|(\&)|(~)){1}[A-Zvo])\)/g)){
+    while(result.match(/\(([A-Zvo]((->)|(\|)|(\&)|(~)){1}[A-Zvo])\)/g) || result.match(/\(\![A-Zov]\)/g)){
       reg1 = new RegExp(/\(([A-Zvo]((->)|(\|)|(\&)|(~)){1}[A-Zvo])\)/g)
       matchings = (result).match(reg1)
       //console.log(matchings)
       for(let brackets in matchings){
           result = result.replace(matchings[brackets], 'v')
+          //console.log(result)
+      }
+
+      reg1 = new RegExp(/\(\![A-Zov]\)/g)
+      matchings = (result).match(reg1)
+      //console.log(matchings)
+      for(let brackets in matchings){
+          result = result.replace(matchings[brackets], 'o')
           //console.log(result)
       }
     }
