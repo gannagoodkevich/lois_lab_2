@@ -325,12 +325,12 @@ function start() {
 
 
 
-    while(result.match(/\(\![A-Zo]\)/g)){
-      reg1 = new RegExp(/\(\![A-Zo]\)/g)
+    while(result.match(/\(\![A-Z01]\)/g)){
+      reg1 = new RegExp(/\(\![A-Z01]\)/g)
       matchings = (result).match(reg1)
       console.log(matchings)
       for(let brackets in matchings){
-          result = result.replace(matchings[brackets], 'o')
+          result = result.replace(matchings[brackets], 'A')
           console.log("result")
           console.log(result)
       }
@@ -338,34 +338,46 @@ function start() {
 
     //console.log("matchings")
     //console.log(result.match(/\(([A-Zvo]((->)|(\|)|(\&)|(~)){1}[A-Zvo])\)/g))
-    while(result.match(/\(([A-Zvo]((->)|(\|)|(\&)|(~)){1}[A-Zvo])\)/g) || result.match(/\(\![A-Zov]\)/g)){
-      reg1 = new RegExp(/\(([A-Zvo]((->)|(\|)|(\&)|(~)){1}[A-Zvo])\)/g)
+    while(result.match(/\(([A-Z01]((->)|(\|)|(\&)|(~)){1}[A-Z01])\)/g) || result.match(/\(\![A-Z01]\)/g)){
+      reg1 = new RegExp(/\(([A-Z01]((->)|(\|)|(\&)|(~)){1}[A-Z01])\)/g)
       matchings = (result).match(reg1)
       //console.log(matchings)
       for(let brackets in matchings){
-          result = result.replace(matchings[brackets], 'v')
+          result = result.replace(matchings[brackets], 'A')
           //console.log(result)
       }
 
-      reg1 = new RegExp(/\(\![A-Zov]\)/g)
+      reg1 = new RegExp(/\(\![A-Z01]\)/g)
       matchings = (result).match(reg1)
       //console.log(matchings)
       for(let brackets in matchings){
-          result = result.replace(matchings[brackets], 'o')
+          result = result.replace(matchings[brackets], 'A')
           //console.log(result)
       }
     }
 
+      if(result.match(/^\([A-Z01]\)$/g) !== null){
+        var message = "This formula is not valid, check!!!"
+        var mainDiv = document.getElementById("gener_div");
+        mainDiv.innerHTML = "";
+        var body = document.getElementById('table');
+        body.innerHTML = ""
+        var answer = document.createElement("p");
+        var answerContent = document.createTextNode("Current formula is " + message);
+        answer.appendChild(answerContent);
+        mainDiv.appendChild(answer);
+        return
+      }
       //reg1 = new RegExp(/([dok]\&[dok])/g)
-      if((result.match(/^\([A-Z]\)$/g) !== null || result.match(/^[A-Z]$/g) !== null)){
-        result = "v"
+      if(result.match(/^[A-Z01]$/g) !== null){
+        result = "A"
       }
 
       console.log("result")
       console.log(result)
 
 
-    if (result === "v" || result === "o") {
+    if (result === "A") {
       findSubformulas(subFormulas, variables);
       createTable(table, variables);
       mainCalculations(table, subFormulas);
