@@ -418,14 +418,24 @@ function tableCreate(table) {
   tbl.style.width = '70%';
   tbl.setAttribute('border', '2');
   cons = 0
-  reg1 = new RegExp(/[01]/g)
+  reg1 = new RegExp(/0/g)
   matchings_consts = (formula).match(reg1)
   //console.log("consts")
   //console.log(matchings_consts)
   if (matchings_consts !== null ){
     //console.log("consts")
     //console.log(table.length - cons)
-    cons = matchings_consts.length
+    cons += 1
+  }
+
+  reg1 = new RegExp(/1/g)
+  matchings_consts = (formula).match(reg1)
+  //console.log("consts")
+  //console.log(matchings_consts)
+  if (matchings_consts !== null ){
+    //console.log("consts")
+    //console.log(table.length - cons)
+    cons += 1
   }
   var tbdy = document.createElement('tbody');
   for (var i = 0; i < 1; i++) {
