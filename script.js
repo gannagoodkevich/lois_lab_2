@@ -417,20 +417,30 @@ function tableCreate(table) {
   var tbl = document.createElement('table');
   tbl.style.width = '70%';
   tbl.setAttribute('border', '2');
+  cons = 0
+  reg1 = new RegExp(/[01]/g)
+  matchings_consts = (formula).match(reg1)
+  //console.log("consts")
+  //console.log(matchings_consts)
+  if (matchings_consts !== null ){
+    //console.log("consts")
+    //console.log(table.length - cons)
+    cons = matchings_consts.length
+  }
   var tbdy = document.createElement('tbody');
   for (var i = 0; i < 1; i++) {
     var tr = document.createElement('tr');
     for (var j = 0; j < table.length; j++) {
-      var td = document.createElement('td');
-      if(i === 0) {
-        td.innerHTML = table[j][0]
-      }
-      td.appendChild(document.createTextNode('\u0020'));
-      tr.appendChild(td)
+        var td = document.createElement('td');
+        if(i === 0) {
+          td.innerHTML = table[j][0]
+        }
+        td.appendChild(document.createTextNode('\u0020'));
+        tr.appendChild(td)
     }
     tbdy.appendChild(tr);
   }
-  for (var i = 0; i < Math.pow(2, variables.length); i++) {
+  for (var i = 0; i < Math.pow(2, variables.length - cons); i++) {
     var tr = document.createElement('tr');
     for (var j = 0; j < table.length; j++) {
       var td = document.createElement('td');
